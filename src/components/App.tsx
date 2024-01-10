@@ -1,4 +1,5 @@
 import { useState } from "react";
+import "./App.scss";
 
 type Props = {};
 export const App = (props: Props) => {
