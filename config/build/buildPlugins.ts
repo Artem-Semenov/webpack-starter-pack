@@ -35,5 +35,5 @@ export const buildPlugins = (
     );
   }
 
-  return plugins.filter(Boolean);
+  return plugins;
 };

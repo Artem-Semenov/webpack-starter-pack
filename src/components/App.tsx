@@ -1,13 +1,15 @@
 import { useState } from "react";
-import "./App.scss";
+import classes from "./App.module.scss";
 
 type Props = {};
 export const App = (props: Props) => {
   const [count, setCount] = useState<number>(0);
   return (
     <>
-      <div>Counter: {count}</div>
-      <button onClick={() => setCount(count + 1)}>increase</button>
+      <div className={classes.value}>Counter: {count}</div>
+      <button className={classes.button} onClick={() => setCount(count + 1)}>
+        increase
+      </button>
     </>
   );
 };
