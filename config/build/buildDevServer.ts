@@ -5,4 +5,5 @@ export const createDevServer = (
 ): DevServerConfiguration => ({
   port: options.port ?? 3000,
   open: true,
+  historyApiFallback: true,
 });
