@@ -1,9 +1,9 @@
 import { createRoot } from "react-dom/client";
 import { App } from "./components/App";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import { LazyAbout } from "./pages/about/About.lazy";
 import { Shop } from "./pages/shop";
 import { Suspense } from "react";
+import { About } from "./pages/about";
 const root = document.getElementById("root");
 if (!root) {
   throw new Error("root not found");
@@ -20,7 +20,7 @@ const router = createBrowserRouter([
         path: "/about",
         element: (
           <Suspense fallback="loading...">
-            <LazyAbout />
+            <About />
           </Suspense>
         ),
       },
