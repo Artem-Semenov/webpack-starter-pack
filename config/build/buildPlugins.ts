@@ -1,13 +1,13 @@
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
-import webpack, { Configuration } from "webpack";
+import webpack, { Configuration, DefinePlugin } from "webpack";
 import { BuildOptions } from "./types";
 import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
 
 export const buildPlugins = (
   options: BuildOptions
 ): Configuration["plugins"] => {
-  const { mode, paths, analyzer } = options;
+  const { mode, paths, analyzer, platform } = options;
 
   const isDev = mode === "development";
   const isProd = mode === "production";
@@ -17,6 +17,10 @@ export const buildPlugins = (
       template: paths.html,
       filename: "index.html",
       inject: "head",
+    }),
+    new DefinePlugin({
+      __PLATFORM: JSON.stringify(platform),
+      __ENV: JSON.stringify(mode),
     }),
   ];
 

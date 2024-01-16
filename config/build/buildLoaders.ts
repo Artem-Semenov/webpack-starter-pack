@@ -25,11 +25,38 @@ export const buildLoaders = (options: BuildOptions): ModuleOptions["rules"] => {
     ],
   };
 
+  const assetsLoader = {
+    test: /\.(png|jpg|jpeg|gif)$/i,
+    type: "asset/resource",
+  };
+
   const tsLoader = {
     test: /\.tsx?$/,
     use: "ts-loader",
     exclude: /node_modules/,
   };
 
-  return [scssLoader, tsLoader];
+  const svgrLoader = {
+    test: /\.svg$/,
+    use: [
+      {
+        loader: "@svgr/webpack",
+        options: {
+          icon: true,
+          svgoConfig: {
+            plugins: [
+              {
+                name: "convertColors",
+                params: {
+                  currentColor: true,
+                },
+              },
+            ],
+          },
+        },
+      },
+    ],
+  };
+
+  return [svgrLoader, assetsLoader, scssLoader, tsLoader];
 };
