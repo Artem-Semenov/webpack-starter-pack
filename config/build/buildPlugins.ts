@@ -3,6 +3,10 @@ import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import webpack, { Configuration, DefinePlugin } from "webpack";
 import { BuildOptions } from "./types";
 import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
+import ForkTsCheckerWebpackPlugin from "fork-ts-checker-webpack-plugin";
+import ReactRefreshWebpackPlugin from "@pmmmwh/react-refresh-webpack-plugin";
+import path from "path";
+import CopyPlugin from "copy-webpack-plugin";
 
 export const buildPlugins = (
   options: BuildOptions
@@ -17,6 +21,7 @@ export const buildPlugins = (
       template: paths.html,
       filename: "index.html",
       inject: "head",
+      favicon: path.resolve(paths.public, "favicon.ico"),
     }),
     new DefinePlugin({
       __PLATFORM: JSON.stringify(platform),
@@ -27,7 +32,10 @@ export const buildPlugins = (
   if (isDev) {
     plugins.push(
       //slow
-      new webpack.ProgressPlugin()
+      new webpack.ProgressPlugin(),
+      //Type check in parallel process
+      new ForkTsCheckerWebpackPlugin(),
+      new ReactRefreshWebpackPlugin()
     );
   }
 
@@ -36,6 +44,14 @@ export const buildPlugins = (
       new MiniCssExtractPlugin({
         filename: "css/[name].[contenthash].css",
         chunkFilename: "css/[name].[contenthash].css",
+      }),
+      new CopyPlugin({
+        patterns: [
+          {
+            from: path.resolve(paths.public, "locales"),
+            to: path.resolve(paths.output, "locales"),
+          },
+        ],
       })
     );
   }
